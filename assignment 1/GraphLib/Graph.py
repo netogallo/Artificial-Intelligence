@@ -1,37 +1,39 @@
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy
-import pickle
-import gzip
 from itertools import product
-
-class Graph:
-    
-    map1c=None
-    w=numpy.sqrt(2)
-    diagonals=True
-    step=4    
 
 class Node:    
     
-    def __init__(self,x,y,cost=0,goal=None):
+    def __init__(self,x,y,graph=None,cost=0,parent=None,goal=None,step=1,diagonals=True):
         self.x=x
         self.y=y
-        self.cost=cost
+        self.k=cost
+        self.parent=parent
 
-        if(goal is None):
-            self.goal=0
+        if self.parent is None:
+
+            self.map1c=graph            
+            self.diagonals=diagonals
+            self.step=step
+
+            if(goal is None):
+                self.goal=None
+            else:
+                self.goal=goal
+
         else:
-            self.goal=abs(goal.x-self.x)+abs(goal.y-self.y)
+            self.map1c=self.parent.map1c
+            self.diagonals=self.parent.diagonals
+            self.goal=self.parent.goal
+            self.step=self.parent.step
 
-    def children(self,g=None):
+    def children(self):
 
-        if Graph.map1c is None:
+        if self.map1c is None:
             return []
             
         res=[]
         
-        for dx,dy in product([-Graph.step,0,Graph.step],repeat=2):
+        for dx,dy in product([-self.step,0,self.step],repeat=2):
 
             tx=dx
             ty=dy
@@ -42,7 +44,7 @@ class Node:
 
             while(max(abs(tx),abs(ty))>0):
 
-                if(Graph.map1c[self.x+tx,self.y+ty]!=1):
+                if(self.map1c[self.x+tx,self.y+ty]!=1):
                     valid=False
                     break
 
@@ -58,19 +60,34 @@ class Node:
             
 
             if(valid):
-                if(numpy.abs(dx)+numpy.abs(dy)==Node.step):
-                    res.append(Node(self.x+dx,self.y+dy,cost=1,goal=g)) 
-                elif(Graph.diagonals and (numpy.abs(dx)+numpy.abs(dy)>Node.step)):
-                    res.append(Node(self.x+dx,self.y+dy,cost=1.4142,goal=g))
+                if(numpy.abs(dx)+numpy.abs(dy)==self.step):
+                    res.append(Node(self.x+dx,self.y+dy,cost=1,parent=self)) 
+                elif(self.diagonals and (numpy.abs(dx)+numpy.abs(dy)>self.step)):
+                    res.append(Node(self.x+dx,self.y+dy,cost=1.4142,parent=self)) 
 
         return res
+
+    def cost(self):
+
+        if self.parent is None:
+            return self.k
+        else:
+            return self.parent.cost()+self.k
+
+    def hCost(self):
+        
+        if self.goal is None:
+            return self.cost()
+        else:
+            h=abs(self.goal.x-self.x)+abs(self.goal.y-self.y)
+            return self.cost()+h
 
     def __repr__(self):
         return self.__str__()
 
     
     def __str__(self):
-        return "Node: ("+self.x.__str__()+","+self.y.__str__()+",k="+(self.cost+self.goal).__str__()+")"
+        return "Node: ("+self.x.__str__()+","+self.y.__str__()+",k="+self.hCost().__str__()+")"
             
     def __eq__(self,node):
         if(self.x==node.x and self.y==node.y):
@@ -81,10 +98,10 @@ class Node:
         return not self.__eq__(node)
 
     def __gt__(self,node):
-        return self.cost+self.goal>=node.cost+node.goal
+        return self.hCost()>=node.hCost()
 
     def __lt__(self,node):
-        return self.cost+self.goal<node.cost+node.goal
+        return self.hCost()<node.hCost()
 
     def __hash__(self):
         return self.x+(self.y*100000)

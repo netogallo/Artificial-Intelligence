@@ -1,72 +1,38 @@
-from Graph import Node,Graph
+from Graph import Node
 from heapq import heappush,heappop,heapify
 
-def dijkstra(start,goal):
+#Note: This algoritm uses either Dijkstra or A*
+#it all depends if the start node has a defined goal
+#which can be used to calculate the heuristic cost
+def graphSearch(start,goals):
 
     d=[]
     heapify(d)
-    start.cost=0
+    #start.cost=0
     f=[start]
-
-    while len(f)>0:
-        
-        n=heappop(f)
-
-        #print ("Node queue: "+f.__str__())
-        if(len(d)>15000):
-            return f
-            
-
-        if(n==goal):
-            d.append(n)
-            return d
-
-        if not n in d:
-            d.append(n)
-        
-        children=n.children()
-
-        for node in children:
-            
-            node.cost=node.cost+n.cost
-
-            if((not (node in f)) and (not (node in d))):
-                heappush(f,node)
-            elif(node in f):
-                if(node.cost<f[f.index(node)].cost):
-                    f[f.index(node)].cost=node.cost
-
-    return d
-
-def astar(start,goals):
-
-    d=[]
-    heapify(d)
-    start.cost=0
-    f=[start]
+    heapify(f)
 
     while len(f)>0:
         
         n=heappop(f)
 
         for goal in goals:
-            if((abs(n.x-goal.x)+abs(n.y-goal.y))<=Graph.step):
+            if((abs(n.x-goal.x)+abs(n.y-goal.y))<=start.step):
                 d.append(n)
                 return (d,f)
 
         if not n in d:
             d.append(n)
         
-        children=n.children(g=goals[0])
+        children=n.children()
+        #print(children)
 
         for node in children:
             
-            node.cost=node.cost+n.cost
-
             if((not (node in f)) and (not (node in d))):
                 heappush(f,node)
             elif(node in f):
-                if(node.cost<f[f.index(node)].cost):
-                    f[f.index(node)].cost=node.cost
+                if(node.cost()<f[f.index(node)].cost()):
+                    f[f.index(node)]=node
 
     return d
