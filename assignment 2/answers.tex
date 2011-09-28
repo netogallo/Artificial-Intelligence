@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage{amsfonts} 
+\title{Artificial Intelligence: Assignment 2}
+\author{Ernesto Rodriguez}
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+
+Proove that $h(x) \leq k(x,u_i,x'_i)+h(x'_i)$ always holds:
+
+Suppose that $x'=x_g$, then:
+
+\begin{equation} h(x) \leq K(x,u_i,x) + h(x') \end{equation}
+
+By definiton of h, $h(x')=h(x_g)=0$ so:
+
+\[ h(x) \leq K(x,u_i,x) \]
+
+Which must be true for a proper definition of h.
+
+Now let x' be any arbitrary child of x which also lies in the optimum path. We can define a equivalent heuristic function h'(x,x') which is equivalent to the heuristic function above but returns the heuristic cost between two arbitrary nodes. So in order to calculate the heuristic cost from x_s to x' we must:
+
+\[h'(x_s,x'):=h'(x_s,x)+h'(x,x') \]
+
+Since h'(x,x') makes local estimates we know that:
+
+\[h(x_s,x') \leq h'(x_s,x')\]
+
+We know that x and x' lie in the optimum path so the cost from x_s to x' is:
+
+\[ k(x_s,x')=k(x_s,x)+k(x,x') \]
+
+Which must satisfy:
+
+\[ h'(x_s,x') \leq k(x_s,x') \]
+\[ h'(x_s,x)+h'(x,x') \leq k(x_s,x)+k(x,x') \]
+
+Since k,h and h'\geq 0, and by equation 1, we know that:
+
+$h'(x_s,x) \leq k(x_s,x)$ and $h'(x,x') \leq k(x,x')$
+
+This shows that: 
+
+\begin{equation}   
+  h'(x_s,x') \leq k(x_s,x')
+\end{equation}
+
+ is true for any x and x' that lie in the optimum path. Now for any child x'' of x' which also lies in the optimum path we get the inequality:
+
+\[ h'(x_s,x') + h'(x',x'') \leq k(x_s,x') + k(x',x'') \]
+
+We know by equation 2 that $h'(x_s,x') \leq k(x_s,x')$ and by equation 1 we know that $h'(x',x'') \leq k(x',x'')$. So:
+
+\begin{equation}
+
+  h(x_s,x'') \leq h'(x_s,x'') \leq k(x_s,x'')
+
+\end{equation}
+
+\section{Problem 2:}
+
+We return to the h'(x,x') function defined in the previous section, so l* for any x si defined as:
+
+\[ l*(x):=k(x_s,x)+h'(x,x_g) \]
+
+So l*(x') for any child x' of x that lies in the optimum path is:
+
+\[ l*(x'):=k(x_s,x')+h'(x',x_g)=k(x_s,x)+k(x,x')+h'(x',x_g) \]
+
+So we want to know why:
+
+\[k(x_s,x)+k(x,x')+h(x',x_g) \ge k(x_s,x)+h'(x,x_g) \]
+
+We can rewrite using the definition of h'(x):
+
+\[k(x_s,x)+k(x,x')+h(x',x_g) \ge k(x_s,x)+h'(x,x')+h'(x',x_g) \]
+
+Eliminating the equivalent terms of both sides we get:
+
+\[k(x,x') \ge h'(x,x') \]
+
+Which by definition must be true. What happens here is that of the parent node must estimate heuristically a futher or larger path. The child node `knows` the real cost of a small section of the estimate (the cost between itself and it's parent) and the heurisitic estimation of that path will always be greater, therefore l* is grater for the child.
+
+\end{document}
