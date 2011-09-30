@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsfonts} 
+\usepackage{graphicx}
 \title{Artificial Intelligence: Assignment 2}
 \author{Ernesto Rodriguez}
 \begin{document}
@@ -19,7 +20,7 @@ By definiton of h, $h(x')=h(x_g)=0$ so:
 
 Which must be true for a proper definition of h.
 
-Now let x' be any arbitrary child of x which also lies in the optimum path. We can define a equivalent heuristic function h'(x,x') which is equivalent to the heuristic function above but returns the heuristic cost between two arbitrary nodes. So in order to calculate the heuristic cost from x_s to x' we must:
+Now let x' be any arbitrary child of x which also lies in the optimum path. We can define a equivalent heuristic function h'(x,x') which is equivalent to the heuristic function above but returns the heuristic cost between two arbitrary nodes. So in order to calculate the heuristic cost from $x_s$ to x' we must:
 
 \[h'(x_s,x'):=h'(x_s,x)+h'(x,x') \]
 
@@ -27,7 +28,7 @@ Since h'(x,x') makes local estimates we know that:
 
 \[h(x_s,x') \leq h'(x_s,x')\]
 
-We know that x and x' lie in the optimum path so the cost from x_s to x' is:
+We know that x and x' lie in the optimum path so the cost from $x_s$ to x' is:
 
 \[ k(x_s,x')=k(x_s,x)+k(x,x') \]
 
@@ -36,7 +37,7 @@ Which must satisfy:
 \[ h'(x_s,x') \leq k(x_s,x') \]
 \[ h'(x_s,x)+h'(x,x') \leq k(x_s,x)+k(x,x') \]
 
-Since k,h and h'\geq 0, and by equation 1, we know that:
+Since k,h and $h'\geq 0$, and by equation 1, we know that:
 
 $h'(x_s,x) \leq k(x_s,x)$ and $h'(x,x') \leq k(x,x')$
 
@@ -53,9 +54,7 @@ This shows that:
 We know by equation 2 that $h'(x_s,x') \leq k(x_s,x')$ and by equation 1 we know that $h'(x',x'') \leq k(x',x'')$. So:
 
 \begin{equation}
-
   h(x_s,x'') \leq h'(x_s,x'') \leq k(x_s,x'')
-
 \end{equation}
 
 \section{Problem 2:}
@@ -81,5 +80,44 @@ Eliminating the equivalent terms of both sides we get:
 \[k(x,x') \ge h'(x,x') \]
 
 Which by definition must be true. What happens here is that of the parent node must estimate heuristically a futher or larger path. The child node `knows` the real cost of a small section of the estimate (the cost between itself and it's parent) and the heurisitic estimation of that path will always be greater, therefore l* is grater for the child.
+
+\section{Problem 3:}
+
+To see if the occurences match the probabilities here is a sample run of the PMF generator which generated 10 random items (named Item 1 to Item 10) each with a occurence probability (the sum of all probabilities is 1) and 10000 samples where selected. The folowing histogram shows the results:
+
+\includegraphics[width=140mm]{results.ps}
+
+\begin{tabular}{| c | c | c |}
+
+\hline
+{\bf Item Name} & {\bf Item Probability} & {\bf Item Empirical Probability (Occurences/Samples)} \\
+\hline
+Item 1 & 0.0556 & 0.0551 \\
+\hline
+Item 2 & 0.0869 & 0.0905 \\
+\hline
+Item 3 & 0.0117 & 0.0119 \\
+\hline
+Item 4 & 0.1041 & 0.1068 \\
+\hline
+Item 5 & 0.19 & 0.1859 \\
+\hline
+Item 6 & 0.1074 & 0.1032 \\
+\hline
+Item 7 & 0.002 & 0.002 \\
+\hline
+Item 8 & 0.1306 & 0.1368 \\
+\hline
+Item 9 & 0.1537 & 0.1486 \\
+\hline
+Item 10 & 0.158 & 0.1593 \\
+\hline
+\end{tabular}
+
+\vspace{10mm}
+
+As we can see the probability in every case is similar to the empirical probability so the PMF generator is working properly.
+
+
 
 \end{document}

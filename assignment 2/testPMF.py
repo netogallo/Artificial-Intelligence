@@ -1,3 +1,11 @@
+#PMF and Simulated Annealing Testing File
+#Author: Ernesto Rodriguez
+#Course: Artificial Intelligence Fall 2011 Jacobs University
+#
+#This program measures the occurance of items in a PMF and
+#calculates the shortest path to traverse 25 points using
+#simulated annealing
+
 import unittest
 import PMF
 import SMAnnealing
