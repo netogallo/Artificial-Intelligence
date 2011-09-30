@@ -1,48 +1,107 @@
 import random
 import math
 
-minTemp=1
-maxTemp=10
+maxTime=500
+maxTest=50
 
 def smAnnealing(tuples):
 
-    res=[]
-    x=tuples[0]
-    res.append((len(res)+1,x))
-    tuples.remove(x)
+    best=tuples[:]
+    T=initialTemp(tuples) #Calculate the initial temperature
 
-    while(len(tuples)>0):
+    for k in range(1,maxTime):
+
+        test=split(best)
+        best=[]
+        t=schedule(k,T)
+        #numItem=int(len(test)*(random.random()-0.01))
+        #item=test[numItem][:] #select a random sublist, the sublists become smaller as t increases
+        #random.shuffle(item)
+
+        for slist in test:
+        #dtem=cost(seg[1])-cost(seg[0])
+
+            item=slist[:]
+            random.shuffle(item)
+            
+            #if(i==numItem):                
+            dtem=cost(item)-cost(slist)
+                            
+            if(dtem<=0):
+                best=best+item
+            else:
+                if random.random()<(probability(dtem,t)):
+                    best=best+item
+                        #print (probability(dtem,t),t,dtem,"yes")
+                else:
+                    best=best+slist
+                        #print (probability(dtem,t),t,dtem,"no")
+    return best          
+
+def split(tuples):
+
+    #cuts=(int(num*10/(maxTime+1)))+1
+    cuts=int(6*(random.random()-0.01))+1
+    step=(len(tuples)/cuts)+1
+
+    ret=[]
+
+    for i in range(0,len(tuples),step):
+        #item=(tuples[i:i+step],tuples[i:i+step])
+        #random.shuffle(item[1])
+        #ret.append(item)
+        ret.append(tuples[i:i+step])
+
+    return ret
+
+def schedule(k,T):
+
+    #return T/(5*(k*(0.4/maxTime)+0.2))
+    return float(T)*((1/((k*(float(9)/float(maxTime))+1)))-0.1)
+    
+
+def initialTemp(tuples):
+
+    big=0
+    sample=tuples[:]
+
+    for i in range(1,maxTest):
+
+        random.shuffle(sample)
+        k=abs(cost(tuples)-cost(sample))
+              
+        if big<k:
+            big=k
+
+    print "High temp: "+(big).__str__()
+    return (big*2)
         
-        x=selNext(x,tuples)
-        res.append((len(res)+1,x))
-        tuples.remove(x)
+def probability(dtemp,temp):
 
-    return res
+    return (math.e**(-dtemp/temp))/2
 
-def selNext(x,domain):
+def cost(tuples):
 
-    best=domain[0] #The best child
+    k=0
 
-    for k in range(minTemp,maxTemp):
-        
-        random.shuffle(domain)
-        tmp=domain[0] #select a random child
+    for i in range(0,len(tuples)):
 
-        dtmp=cost(x,best)-cost(x,tmp)
+        try:
+            k=k+math.sqrt((tuples[i][0]-tuples[i+1][0])**2 + (tuples[i][1]-tuples[i+1][1])**2)
+        except IndexError:
+            0
 
-        if(dtmp<=0):
-            best=tmp
-        else:
-            if random.random()>probability(dtmp,k):
-                best=tmp
+    return k
 
-    return best
-                
-        
-def probability(energy,time):
+def tcost(tuples):
 
-    return math.e**(-energy/time)
+    k=0
 
-def cost(a,b):
+    for i in range(0,len(tuples)):
 
-    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+        try:
+            k=k+math.sqrt((tuples[i][0]-tuples[i+1][0])**2 + (tuples[i][1]-tuples[i+1][1])**2)
+        except IndexError:
+            k=k+math.sqrt((tuples[i][0]-tuples[0][0])**2 + (tuples[i][1]-tuples[0][1])**2)
+
+    return k
