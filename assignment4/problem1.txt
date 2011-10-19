@@ -1,0 +1,43 @@
+#Jacobs University Bremen
+#Ernesto Rodriguez
+
+#Algorithm that uses backward 
+#chaining to test if the given
+#query q is true for the 
+#given knowledge base KB.
+
+PL-BC-Entails(KB,q): 
+
+#Obtain from the KB all
+#known facts (or symbols) 
+
+g $<-$ Symbols Known to be true in KB
+
+#If q is known return true and finish.\\
+{\bf if} q {\bf in} g {\bf then return} ture;
+
+#Find all horn clauses whoose conclusion 
+#is q and try to infer if q is ture
+#from those clauses. Variable c 
+#represents the horn clause currently being iterated. 
+#If q can be infered from one
+# of the clauses c return true if q cant be inferred 
+#from the given clauses return false
+
+for All Horn Clause c in KB where q is the conclusion of c:
+
+    #All symbols must be true for the
+    #horn clause to be true. Test if the clause
+    #is satisfiable by trying to infer if a 
+    #symbol is true given that all other
+    #symbols in the clause are true
+    if forevery Symbol s in the premisce of c:
+       #Test if the current symbol s of 
+       #the premisce of clause c can be inffered 
+       #assuming all other symbols in the clause are true.
+       PL-BC-Entails(KB+{r=true},s)=true where r <- {x | x s.t. x is premisce of c} - s
+    then return ture;
+
+
+return} false;
+

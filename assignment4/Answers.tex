@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\title{Assignment 3}
+\author{Ernesto Rodriguez}
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+\subsection{Execution Trace}
+
+Query of the literal P for the KB in example 24.
+
+\begin{tabular}{ | c | c | c | p{40mm} | c | }
+\hline
+{\bf Recursive It \#} & {\bf Known symbols in KB} & {\bf Query} & {\bf Recursive calls or Return value} & {\bf Result}\\
+\hline
+1 & A,B & P & \#2 FC-BC(KB+{M=true},L); \#7 FC-BC(KB+{L=true},M) & true\\
+\hline
+2 & A,B,M & L & \#3 FC-BC(KB+{L=true},A); \#4 FC-BC(KB+{L=true},P) & true\\
+\hline
+3 & A,B,M,L & A & retrun true & true\\
+\hline
+4 & A,B,M,L & P & \#5 FC-BC(KB+{M=true},L); \#6 :FC-BC(KB+{L=true},L) & true\\
+\hline
+5 & A,B,M,L & L & return true & true\\
+\hline
+6 & A,B,M,L & M & return true & true\\
+\hline
+7 & A,B,L & M & \#8 FC-BC(KB+{L=true},B), \#9 FC-BC(KB+{B=true},L) & true\\
+\hline
+8 & A,B,L & B & return true & true \\
+\hline
+9 & A,B,L & L & return true & true \\
+\hline
+\end{tabular}
+
+\subsection{Conclusion}
+
+The code is much simpler. The code is stateless since each iteration is done as a recursive call. The code has less validations and no counters.
+
+\section{Problem 2}
+
+\begin{itemize}
+
+\item{{\bf $C_5$:}$E \Rightarrow F \vee D$}
+\item{{\bf $C_6$:}$A \Rightarrow \neg B \vee C \vee D \vee F \vee G$}
+\item{{\bf $C_7$:}$C \vee D \vee E$}
+
+\end{itemize}
+
+The model can be satisfied by the clause: $A \vee B \vee C \vee \neg D \vee \neg E \vee \neg F \vee G$.
+
+\section{Problem 3}
+
+\[
+P(\alpha|\beta,\gamma) \text{ By 8.20 }=\frac{P(\alpha,(\beta,\gamma))}{P(\beta|\gamma)}=\frac{P(\beta,(\alpha,\gamma))}{P(\beta|\gamma)}
+= \text{ By product rule 8.21 } = \frac{P(\beta|\alpha,\gamma)*P(\alpha,\gamma)}{P(\beta,\gamma)}
+\]
+
+\section{Problem 4}
+
+\begin{itemize}
+
+\item{{\bf P}$(A,B)=|A|*|B|$}
+\item{{\bf P}$(A|B)=|A|$}
+\item{{\bf P}$(B|A)=|B|$}
+\item{{\bf P}$(A,B,C)=|A|*|B|*|C|$}
+\item{{\bf P}$(A,B|C)=|A|*|B|$}
+\item{{\bf P}$(A|B,C)=|A|$}
+
+\end{itemize}
+
+\end{document}
+        
