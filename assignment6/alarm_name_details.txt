@@ -1,0 +1,77 @@
+The ALARM ("A Logical Alarm Reduction Mechanism") is a Bayesian network designed to provide an alarm message system for patient monitoring.
+
+Number of nodes: 37
+Number of arcs/edges: 46
+Number of parameters: 509
+
+The alarm data set contains the following 37 RVs. Diagnosis (root) variables are marked D; The evidence (measurement/findings) variables are marked E; the rest are intermediate variables.
+
+E   CVP (central venous pressure): a three-level factor with levels LOW, NORMAL and HIGH.
+E   PCWP (pulmonary capillary wedge pressure): a three-level factor with levels LOW, NORMAL and HIGH.
+E   HISTORY (history): a two-level factor with levels TRUE and FALSE.
+E   TPR (total peripheral resistance): a three-level factor with levels LOW, NORMAL and HIGH.
+E   BP (blood pressure): a three-level factor with levels LOW, NORMAL and HIGH.
+E   CO (cardiac output): a three-level factor with levels LOW, NORMAL and HIGH.
+E   HRBP (heart rate / blood pressure): a three-level factor with levels LOW, NORMAL and HIGH.
+E   HREKG (heart rate measured by an EKG monitor): a three-level factor with levels LOW, NORMAL and HIGH.
+E   HRSAT (heart rate / oxygen saturation): a three-level factor with levels LOW, NORMAL and HIGH.
+E   PAP (pulmonary artery pressure): a three-level factor with levels LOW, NORMAL and HIGH.
+E   SAO2 (arterial oxygen saturation): a three-level factor with levels LOW, NORMAL and HIGH.
+E   FIO2 (fraction of inspired oxygen): a two-level factor with levels LOW and NORMAL.
+E   PRESS (breathing pressure): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+E   EXPCO2 (expelled CO2): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+E   MINVOL (minimum volume): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+E   MINVOLSET (minute ventilation) a three-level factor with levels LOW, NORMAL and HIGH.
+D   HYPOVOLEMIA (hypovolemia): a two-level factor with levels TRUE and FALSE.
+D   LVFAILURE (left ventricular failure): a two-level factor with levels TRUE and FALSE.
+D   ANAPHYLAXIS (anaphylaxis): a two-level factor with levels TRUE and FALSE.
+D   INSUFFANESTH (insufficient anesthesia/analgesia): a two-level factor with levels TRUE and FALSE.
+D   PULMEMBOLUS (pulmonary embolus): a two-level factor with levels TRUE and FALSE.
+D   INTUBATION (intubation): a three-level factor with levels NORMAL, ESOPHAGEAL and ONESIDED.
+D   KINKEDTUBE (kinked tube): a two-level factor with levels TRUE and FALSE.
+D   DISCONNECT (disconnection): a two-level factor with levels TRUE and FALSE.
+    LVEDVOLUME(left ventricular end-diastolic volume): a three-level factor with levels LOW, NORMAL and HIGH.
+    STROKEVOLUME (stroke volume): a three-level factor with levels LOW, NORMAL and HIGH.
+    CATECHOL (catecholamine): a two-level factor with levels NORMAL and HIGH.
+    ERRLOWOUTPUT (error low output): a two-level factor with levels TRUE and FALSE.
+    HR (heart rate): a three-level factor with levels LOW, NORMAL and HIGH.
+    ERRCAUTER (electrocauter): a two-level factor with levels TRUE and FALSE.
+    SHUNT (shunt): a two-level factor with levels NORMAL and HIGH.
+    PVSAT (pulmonary venous oxygen saturation): a three-level factor with levels LOW, NORMAL and HIGH.
+    ARTCO2 (arterial CO2): a three-level factor with levels LOW, NORMAL and HIGH.
+    VENTALV (pulmonary alveoli ventilation): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+    VENTLUNG (lung ventilation): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+    VENTTUBE (ventilation tube): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+    VENTMACH (ventilation machine): a four-level factor with levels ZERO, LOW, NORMAL and HIGH.
+
+Variable Categorization:
+a) 8 Diagnosis (root) variables: Disconnect, KinkedTube, Intubation, Pulmembolus, Anaphylaxis, LVfailure, Hypovolemia, ErrCauter
+b) 16 Measurements (Evidence/Findings) variables: CVP, PCWP, BP, HRBP, HREKG, HRSAT, EXPCO2, PAP, HISTORY, CO, TPR, FIO2, PRESS, MINVOL, MINVOLSET(MV), SAO2
+c) 13 Intermediate variables.
+
+If an electrocauter is used, the EKG monitor is equally likely to show a low, normal, or high reading independent of the patient's real heart rate.
+If an electrocauter is NOT used, the EKG monitor is likely showing the real heart rate.
+
+Example: Physiological measurements:
+1. BP: 120/80 mmHg 
+2. Heart rate: 80/min					HR
+3. Inspired oxygen concentration: 50%
+4. Tidal volume: 500 ml 				TV
+5. Respiratory rate: 10/min				RR
+6. MINVOLSET: minute ventilation= TV*RR
+7. Breathing pressure: 50 mbar				Press
+8. Measured minute ventilation: 1.2 l/min
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+

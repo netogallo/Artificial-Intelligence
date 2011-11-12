@@ -1,0 +1,218 @@
+\documentclass{article}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\title{Assignment 5}
+\author{Ernesto Rodriguez and Shailen Sobhee}
+\begin{document}
+\maketitle
+
+\section{Problem 1}
+
+\begin{enumerate}
+
+\item{
+
+  The following table shows how the nodes on the vertical side depend on the row above. Eq. means it's the same node, Ind. indicates nodes are allways independent, CI given Xn indicates it's conditionally independent given Xn and Child indicates the node is it's parent (allways dependent).
+
+  \begin{tabular}{ | c | p{12mm} | p{12mm} | p{12mm} | p{12mm} | p{12mm} | p{12mm} |}
+
+    \hline
+    {\bf Node} & {\bf A1} & {\bf A2} &{\bf B1} &{\bf B2} &{\bf C1} &{\bf C2} \\
+    \hline
+    {\bf A1} & Eq. & Ind. & Ind. & Ind. & Ind. & Ind. \\
+    \hline
+    {\bf A2} & Ind. & Eq. & Ind. & Ind. & Ind. & Ind. \\
+    \hline
+    {\bf B1} & Child & Child & Eq. & CI given A2 & Ind. & Ind. \\
+    \hline
+    {\bf B2} & Ind. & Child & CI given A2 & Eq. & Ind. & Ind. \\
+    \hline
+    {\bf C1} & CI given B1 & CI given B1 & Child & CI given B1 or A2 & Eq. & CI given B1 \\
+    \hline
+    {\bf C2} & CI given B1 & CI given A2 & Child & CI given B1 or A2 & CI given B1 & Eq. \\
+    \hline
+  \end{tabular}
+
+}
+
+\item{
+
+  $P(B_{\mathcal{B}})$ = $\Pi P(x_i|parents(xi))$\\
+  $P(B_{\mathcal{B}})$ = $P(A_2)*P(A_1)*P(B_2|A_2)*P(A_1|A_1,A_2)*P(C_1|B_1)*P(C_2|B_1)$\\
+}
+
+\item{
+
+  $\mathcal{B}'=\{C_1,A_1,A_2,B_1\}$
+}
+
+\item{
+  
+  We know that $P(A_1|C_1)= \eta p(A_1,C_1)=\eta \sum_{A_2}\sum_{B_1}P(A_1)*P(B_1=b1|A_2=a2,A1)*P(C_1,B_1)$. The calculations where done with python. See the attached procs.py file for more details. The result is the following:
+
+  \begin{tabular}{|c|c|}
+    \hline
+    P(A1=1|C1=0) & 0.6644 \\
+    \hline
+    P(A1=1|C1=1) & 0.6644 \\
+    \hline
+    P(A1=1|C1=2) & 0.5726 \\
+    \hline
+  \end{tabular}
+}
+
+\end{enumerate}
+
+\section{Problem 2}
+
+\begin{enumerate}
+
+  \item{
+
+    $P(A_1=T|B_1=T)$ = $\frac{P(B_1=T|A_1=T)*P(B_1=T)}{P(A_1=T)}$\\
+    $P(B_1=T|A_1=T)$ = $\frac{1}{P(A=T)} \sum_{A_2}P(A_1=T,B_1=T,A_2=a_2)$ = $\frac{1}{P(A=T)}\sum_{A_2}P(B_1=T|A_1=T,A_2=a_2)*P(A_1=T)*P(A_2=a_2)$\\
+    $P(B_1=T|A_1=T)$ = $0.1*0.75+0.2*0.25$ = $0.125$\\
+  }
+
+  \item{
+
+    $P(A_1=T|B_1=T,A_2=T)$ = $\frac{P(B=T,A_2=T|A_1=T)*P(A_1=T)}{P(A_2=T,B_1=T)}$\\
+    $P(B_1=T,A_1=T,A_2=T)$ = $P(B_1=T|A_1=T,A_2=T)*P(A_1=T,A_2=T)$ = $P(B_1=T|A_1=T,A_2=T)*P(A_1=T)*P(A_2=T)$ = $0.1*0.4*0.75$ = $0.03$\\
+    $P(B_1=T,A_2=T)$ = $P(B_1=T|A_2=T)*P(A_2=T)$ = $\sum_{A_1}P(B_1=T|A_2=T,A_1=a_1)*P(A_2=T)=(0.1+0.3)*0.75=0.3$\\
+    $P(A_1=T|B_1=T,A_2=T)$ = $\frac{0.03}{0.3}$ = $0.1$\\
+
+    The probability is lower since we know $A_2$ is true. The fact that $A_2$ could explain $B_1$ being true since $B_1$ depends on $A_2$.\\
+  }
+
+  \item{
+
+    $P(A_1=T|B_1=T,A_2=F)$ = $\frac{P(B_1=T|A_1=T,A_2=F)*P(A_1=T)*P(A_2=F)}{\sum_{A_1}P(B_1=T|A_2=F,A_1=a_1)*P(A_2=F)}$\\
+    $P(B_1=T|A_1=T,A_2=F)*P(A_1=T)*P(A_2=F)$ = $0.2*0.4*0.25$ = $0.02$\\
+    $\sum_{A_1}P(B_1=T|A_2=F,A_1=a_1)*P(A_2=F)$ = $0.15$\\
+    $P(A_1=T|B_1=T,A_2=F)$ = $\frac{0.02}{0.15}$ = $0.1333$\\
+
+    The probability is slightly higher since we are now depending on $A_1$ to trigger $B_1$.\\
+  }
+
+\end{enumerate}
+
+\section{Problem 3}
+
+Show that the three different expressions for the conditional independence are
+equivalent.
+
+First, lets start with some definition:\\*
+{\bf Conditional Independence:}
+\begin{equation}
+P(A,B \mid C) = P(A \mid C)P(B \mid C) 
+\label{condindep_def}
+\end{equation}
+\\*
+{\bf Conditional Probability:}
+\begin{equation}
+P(A \mid B) = \frac{P(A,B)}{P(B)}
+\label{condprob_def1}
+\end{equation}
+and
+\begin{equation}
+P(A \mid B,C) = \frac{P(A,B,C)}{P(B,C)}
+\label{condprob_def2}
+\end{equation}
+\\*
+From \ref{condprob_def1} and \ref{condprob_def2}, it follows that:
+\begin{align}
+P(A,B \mid C) &= \frac{P(A,B,C)}{P(C)} \label{a2}\\
+&= P(A \mid C)P(B \mid C) \\
+&= P(A \mid C)\frac{P(B,C)}{P(C)}
+\end{align}
+\\*
+From \ref{condprob_def1} and \ref{condprob_def2}, it follows that:
+\begin{equation}
+P(A \mid B,C) = \frac{P(A,B,C)}{P(C)}
+\label{a3}
+\end{equation}
+\\*
+Using \ref{a2} and \ref{a3} , we have:
+\begin{equation}
+\frac{P(A \mid B,C)P(B,C)}{P(C)} = P(A \mid C)\frac{P(B,C)}{P(C)}
+\end{equation}
+\\*
+It follows that:
+\begin{equation}
+P(A \mid B,C) = P(A \mid C)
+\end{equation}
+\\*
+Equivalence between the third and the first equation shown. Now, if we swap A
+and B, it is easy to show that euqation three and equation two (from the list
+in the problem) are equivalent.
+\\*
+From \ref{condprob_def1} and \ref{condprob_def2}, it follows that:
+\begin{equation}
+P(B \mid A,C) = \frac{P(B,A,C)}{P(C)}
+\label{a4}
+\end{equation}
+\\*
+Using \ref{a2} and \ref{a4} , we have:
+\begin{equation}
+\frac{P(B \mid A,C)P(A,C)}{P(C)} = P(B \mid C)\frac{P(A,C)}{P(C)}
+\end{equation}
+\\*
+It follows that:
+\bf{
+\begin{equation}
+P(B \mid A,C) = P(B \mid C)
+\end{equation}
+}
+\\* \\ \\ \\
+\section{Problem 4}
+
+Solve the alarm problem with $Y=[A,E]$: \\ \\
+
+{\bf Iteration 1:} $\mathcal{F}=[f_1(B),f_2(E),f_3(A,B,E),f_4(A),f_5(A)]$.\\
+Computation of $f_4(A)*f_5(A)*f_3(A,B,E)$, namely $g_1(E,B)$:\\ \\
+
+\begin{tabular}{| c | c | c | c | c |}
+\hline
+{\bf E} & {\bf B } & {\bf A=T} & {\bf A=F} & {\bf $\sum$}\\
+\hline
+T & T & 0.9*0.7*0.95 & 0.05*0.01*0.06 & 0.598525 \\
+\hline
+F & T & 0.9*0.7*0.29 & 0.05*0.01*0.06 & 0.59223 \\
+\hline
+T & F & 0.9*0.7*0.29 & 0.05*0.01*0.71 & 0.183055 \\
+\hline
+F & F & 0.9*0.7*0.001 & 0.05*0.01*0.999 & 0.0011295 \\
+\hline
+\end{tabular}
+\\ \\
+{\bf Iteration 2:} $\mathcal{F}=[f_1(B),f_2(E),g_1(E,B),]$\\
+Computation of $f_2(E)*g_1(E,B)$, namely $g_2(B)$: \\ \\
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+{\bf B} & {\bf E=T} & {\bf E=F} & {\bf $\sum$} \\
+\hline
+T & 0.598525*0.002 & 0.59223*0.998 & 0.59224259 \\
+\hline
+F & 0.183055*0.002 & 0.0011295*0.998 & 0.001493351 \\
+\hline
+\end{tabular}
+\\ \\
+{\bf Finalization:} $\mathcal{F}=[f_1(B),g_2(B)]$ \\
+Computation of $f_1(B)*g_2(B)$, namely $h(B)$: \\ \\
+
+\begin{tabular}{|c|c|}
+\hline
+{\bf B} & {\bf $\sum$} \\
+\hline
+T & 0.001*0.59224259=0.00059224259 \\
+\hline
+F & 0.999*0.001493351=0.0014918576 \\
+\hline
+\end{tabular}
+\\ \\
+Therefore $P(B|J=T,M=T)$ = $\eta h(B)$ = $[0.2842,0.7158]$.
+
+\end{document}
+
