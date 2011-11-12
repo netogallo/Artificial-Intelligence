@@ -1,3 +1,10 @@
+#Author: Ernesto Rodriguez
+#
+#Title: Likelyhood Weighting
+#
+#Queries the given bayesian network using the 
+#Likelyhood Weighting probabilistic algorithm.
+
 import graph_tool.all as gt
 import graph_tool.topology as t
 import numpy

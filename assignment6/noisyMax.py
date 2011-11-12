@@ -1,19 +1,18 @@
+#Author: Ernesto Rodriguez
+#
+#Title: Noisy Max
+#
+#Description: computes the Joint Probability Distribution
+#for `NtGrbld | AppData, PrtDriver, PrtMem, NtwrkCnfg` which
+#is a cpt defined with noisy max retrieved from the win95pts.dsc
+#which is a bayesian network used by win 95 to troubleshoot
+#printer problems.
+
 from itertools import product
 from numpy import ndarray
 from numpy import zeros
 
-#x1=AppData
-#x2=PrtDriver
-#x3=PrtMem
-#x4=NtwrkCnfg
-
-#	(0, 0, 0, 0): 1, 0;
-#	(1, 0, 0, 0): 0.3, 0.7;
-#	(0, 1, 0, 0): 0.4, 0.6;
-#	(0, 0, 1, 0): 0.2, 0.8;
-#	(0, 0, 0, 1): 0.4, 0.6;
-
-
+#The cpt's of the different nodes
 c1=[[1,0.3],[0,0.7]]
 c2=[[1,0.4],[0,0.6]]
 c3=[[1,0.2],[0,0.8]]
