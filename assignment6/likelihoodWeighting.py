@@ -28,7 +28,7 @@ def randomSample(cpt):
     c=0
     
     for i in range(0,cpt.shape[0]):
-       c=c+cpt[i]
+       c=c+(float(1)/cpt.shape[0]) #Changed this line
        
        if c>=p:
            return i
@@ -160,6 +160,7 @@ def weightedSample(bn,ev):
 
             #print "The cpt table: \n\n"+cpt.__str__()+"\n\n"
             smpl=randomSample(cpt)
+            #smpl=random.randrange(cpt)
             #print "\n\nThe `chosen one` is: "+smpl.__str__()+"\n\n"
             s[bn.graph.vertex(i)]=smpl
             
